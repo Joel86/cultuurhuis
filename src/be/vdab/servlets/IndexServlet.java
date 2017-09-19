@@ -1,6 +1,7 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -28,10 +29,11 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Genre> genres = genreRepository.findAll();
 		request.setAttribute("genres", genres);
+		LocalDate vandaag = LocalDate.now();
 		if(request.getParameter("id") != null) {
 			String idString = request.getParameter("id");
 			request.setAttribute("genreVoorstellingen",
-					voorstellingRepository.findFuturePerformancesByGenre(Long.parseLong(idString)));
+					voorstellingRepository.findFuturePerformancesByGenre(Long.parseLong(idString), vandaag));
 		}
 		request.getRequestDispatcher(VIEW).forward(request,response);
 	}

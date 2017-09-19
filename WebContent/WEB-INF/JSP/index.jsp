@@ -40,7 +40,10 @@
 					<td>${genreVoorstelling.vrijePlaatsen}</td>
 					<td>
 						<c:if test='${genreVoorstelling.vrijePlaatsen > 0}'>
-							Reserveren
+							<c:url value='/reserveren.htm' var='reserveringsURL'>
+								<c:param name='id' value='${genreVoorstelling.id}'/>
+							</c:url>
+							<a href='${reserveringsURL}'>Reserveren</a>
 						</c:if>
 					</td>
 				</tr>

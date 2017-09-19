@@ -1,4 +1,12 @@
 @charset "UTF-8";
 ul#genrelijst li {
     display:inline;
+    width: 100%;
+}
+table {
+	border: 1px solid gray;
+	width: 100%;
+}
+tr:nth-child(odd) {
+	background-color: #e6e6e6;
 }
