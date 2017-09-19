@@ -1,5 +1,6 @@
 <%@page contentType='text/html' pageEncoding='UTF-8' session='false'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <!doctype html>
 <html lang='nl'>
 <head>
@@ -33,7 +34,7 @@
 			</tr>
 			<c:forEach var='genreVoorstelling' items='${genreVoorstellingen}'>
 				<tr>
-					<td>${genreVoorstelling.datum}</td>
+					<td>${genreVoorstelling.datumTijd}</td>
 					<td>${genreVoorstelling.titel}</td> 
 					<td>${genreVoorstelling.uitvoerders}</td>
 					<td>${genreVoorstelling.prijs}</td> 

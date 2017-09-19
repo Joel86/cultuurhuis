@@ -1,35 +1,34 @@
 package be.vdab.entities;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Voorstelling {
 	private long id;
 	private String titel;
 	private String uitvoerders;
-	private LocalDate datum;
+	private LocalDateTime datumTijd;
 	private Genre genre;
 	private BigDecimal prijs;
 	private int vrijePlaatsen;
 	public Voorstelling() {
-		
 	}
-	public Voorstelling(long id, String titel, String uitvoerders, LocalDate datum, 
+	public Voorstelling(long id, String titel, String uitvoerders, LocalDateTime datumTijd, 
 			Genre genre, BigDecimal prijs, int vrijePlaatsen) {
 		this.id = id;
 		this.titel = titel;
 		this.uitvoerders = uitvoerders;
-		this.datum = datum;
+		this.datumTijd = datumTijd;
 		this.genre = genre;
 		this.prijs = prijs;
 		this.vrijePlaatsen = vrijePlaatsen;
 	}
-	public Voorstelling(long id, String titel, String uitvoerders, LocalDate datum, 
+	public Voorstelling(long id, String titel, String uitvoerders, LocalDateTime datumTijd, 
 			BigDecimal prijs, int vrijePlaatsen) {
 		this.id = id;
 		this.titel = titel;
 		this.uitvoerders = uitvoerders;
-		this.datum = datum;
+		this.datumTijd = datumTijd;
 		this.prijs = prijs;
 		this.vrijePlaatsen = vrijePlaatsen;
 	}
@@ -51,11 +50,11 @@ public class Voorstelling {
 	public void setUitvoerders(String uitvoerders) {
 		this.uitvoerders = uitvoerders;
 	}
-	public LocalDate getDatum() {
-		return datum;
+	public LocalDateTime getDatumTijd() {
+		return datumTijd;
 	}
-	public void setDatum(LocalDate datum) {
-		this.datum = datum;
+	public void setDatum(LocalDateTime datumTijd) {
+		this.datumTijd = datumTijd;
 	}
 	public Genre getGenre() {
 		return genre;
