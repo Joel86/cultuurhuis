@@ -12,9 +12,10 @@ import java.util.List;
 import be.vdab.entities.Voorstelling;
 
 public class VoorstellingRepository extends AbstractRepository {
+	private static final String SELECT_BY_ID = "select"
 	private static final String FIND_PERFORMANCES_FROM_DATE_BY_GENRE = 
 			"select id, titel, uitvoerders, datum, prijs, vrijeplaatsen from voorstellingen where genreid = ?"
-			+ " and datum >= ?";
+			+ " and datum >= ? order by datum asc";
 	public List<Voorstelling> findFuturePerformancesByGenre(long id, LocalDateTime datumTijd) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCES_FROM_DATE_BY_GENRE)) {
@@ -33,6 +34,10 @@ public class VoorstellingRepository extends AbstractRepository {
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}
+	}
+	public Voorstelling read(long id) {
+		try(Connection connection = dataSource.getConnection();
+				)
 	}
 	private Voorstelling resultSetRijNaarVoorstelling(ResultSet resultSet) throws SQLException {
 		return new Voorstelling(resultSet.getLong("id"), resultSet.getString("titel"), 
