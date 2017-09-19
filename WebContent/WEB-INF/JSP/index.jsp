@@ -21,11 +21,31 @@
 		</c:forEach>
 	</ul>
 	<c:if test='${not empty genreVoorstellingen}'>
-		<ul>
+		<table>
+		<caption>test</caption>
+			<tr>
+				<th>Datum</th>
+				<th>Titel</th>
+				<th>Uitvoerders</th>
+				<th>Prijs</th>
+				<th>Vrije plaatsen</th>
+				<th>Reserveren</th>
+			</tr>
 			<c:forEach var='genreVoorstelling' items='${genreVoorstellingen}'>
-				<li>${genreVoorstelling.titel}</li>
+				<tr>
+					<td>${genreVoorstelling.datum}</td>
+					<td>${genreVoorstelling.titel}</td> 
+					<td>${genreVoorstelling.uitvoerders}</td>
+					<td>${genreVoorstelling.prijs}</td> 
+					<td>${genreVoorstelling.vrijePlaatsen}</td>
+					<td>
+						<c:if test='${genreVoorstelling.vrijePlaatsen > 0}'>
+							Reserveren
+						</c:if>
+					</td>
+				</tr>
 			</c:forEach>
-		</ul>
+		</table>
 	</c:if>
 </body>
 </html>
