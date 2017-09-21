@@ -2,6 +2,8 @@ package be.vdab.servlets;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -26,7 +28,13 @@ public class reservatiemandjeServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		request.setAttribute("reservaties", (Map<Long, Integer>)session.getAttribute("reservatiemandje"));
+		Map<Long, Integer> reservatiesHashMap = (Map<Long, Integer>)session.getAttribute("reservatiemandje");
+		request.setAttribute("reservaties", reservatiesHashMap);
+		Set<Long> reservatieIdsSet = reservatiesHashMap.keySet();
+		request.setAttribute("gereserveerdeVoorstellingen",
+			reservatieIdsSet.stream()
+				.map(id -> voorstellingRepository.read(id))
+				.collect(Collectors.toSet()));
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -21,13 +21,13 @@
 			<th>Plaatsen</th>
 			<th><input type='submit' value='Verwijderen'/></th>
 		</tr>
-		<c:forEach var='entry' items='${reservaties}'>
+		<c:forEach var='gereserveerdeVoorstelling' items='${gereserveerdeVoorstellingen}'>
 			<tr>
-				<th>${entry.key}</th>
-				<th>${entry.key}</th>
-				<th>${entry.key}</th>
-				<th>${entry.key}</th>
-				<th>${entry.value}</th>
+				<th>${gereserveerdeVoorstelling.datumTijd}</th>
+				<th>${gereserveerdeVoorstelling.titel}</th>
+				<th>${gereserveerdeVoorstelling.uitvoerders}</th>
+				<th>${gereserveerdeVoorstelling.prijs}</th>
+				<th></th>
 			</tr>
 		</c:forEach>
 	</table>
