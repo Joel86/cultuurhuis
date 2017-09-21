@@ -1,7 +1,6 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,33 +16,21 @@ import be.vdab.repositories.GenreRepository;
 import be.vdab.repositories.VoorstellingRepository;
 
 /**
- * Servlet implementation class ReserverenServlet
+ * Servlet implementation class reservatiemandjeServlet
  */
-@WebServlet("/reserveren.htm")
-public class ReserverenServlet extends HttpServlet {
+@WebServlet("/reservatiemandje.htm")
+public class reservatiemandjeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VIEW = "/WEB-INF/JSP/reserveren.jsp";
+	private static final String VIEW = "/WEB-INF/JSP/reservatiemandje.jsp";
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idString = request.getParameter("id");
-		request.setAttribute("voorstelling", voorstellingRepository.read(Long.parseLong(idString)));
+		HttpSession session = request.getSession();
+		request.setAttribute("reservaties", (Map<Long, Integer>)session.getAttribute("reservatiemandje"));
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		HttpSession session = request.getSession(false);
-		Map<Long, Integer> reservaties = new HashMap<>();
-		if(session != null) {
-			reservaties.putAll(((Map<Long, Integer>)session.getAttribute("reservatiemandje")));
-		}
-		if(session == null) {
-			session = request.getSession();
-		}
-		reservaties.put(Long.parseLong(request.getParameter("id")),
-				Integer.parseInt(request.getParameter("aantal")));
-		session.setAttribute("reservatiemandje", reservaties);
-		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
+	
 	}
 	@Resource(name = GenreRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
