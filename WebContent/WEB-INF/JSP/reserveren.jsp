@@ -11,8 +11,16 @@
 	<h1>Het Cultuurhuis:reserveren
 		<img src= <c:url value='/images/reserveren.png'/> alt='reserveren'>
 	</h1>
-	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a> 
-	Voorstelling:
-	
+	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a><br>
+	<p>Voorstelling:<br>
+	${voorstelling.titel}</p>
+	<p>Uitvoerders:<br>
+	${voorstelling.uitvoerders}</p>
+	<p>Datum:<br>
+	${voorstelling.datumTijd}</p>
+	<p>Prijs:<br>
+	${voorstelling.prijs}</p>
+	<p>Vrije plaatsen:<br>
+	${voorstelling.vrijePlaatsen}</p>
 </body>
 </html>

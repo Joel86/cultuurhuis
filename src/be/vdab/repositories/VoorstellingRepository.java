@@ -12,7 +12,8 @@ import java.util.List;
 import be.vdab.entities.Voorstelling;
 
 public class VoorstellingRepository extends AbstractRepository {
-	private static final String SELECT_BY_ID = "select"
+	private static final String SELECT_BY_ID = "select id, titel, uitvoerders, datum, prijs, vrijeplaatsen"
+			+ " from voorstellingen where id = ?";
 	private static final String FIND_PERFORMANCES_FROM_DATE_BY_GENRE = 
 			"select id, titel, uitvoerders, datum, prijs, vrijeplaatsen from voorstellingen where genreid = ?"
 			+ " and datum >= ? order by datum asc";
@@ -37,7 +38,21 @@ public class VoorstellingRepository extends AbstractRepository {
 	}
 	public Voorstelling read(long id) {
 		try(Connection connection = dataSource.getConnection();
-				)
+				PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
+			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+			connection.setAutoCommit(false);
+			statement.setLong(1, id);
+			Voorstelling voorstelling = new Voorstelling();
+			try(ResultSet resultSet = statement.executeQuery()) {
+				if(resultSet.next()) {
+					voorstelling = resultSetRijNaarVoorstelling(resultSet);
+				}
+			}
+			connection.commit();
+			return voorstelling;
+		} catch(SQLException ex) {
+			throw new RepositoryException(ex);
+		}
 	}
 	private Voorstelling resultSetRijNaarVoorstelling(ResultSet resultSet) throws SQLException {
 		return new Voorstelling(resultSet.getLong("id"), resultSet.getString("titel"), 
