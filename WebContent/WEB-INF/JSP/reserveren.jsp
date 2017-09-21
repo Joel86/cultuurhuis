@@ -19,8 +19,14 @@
 	<p>Datum:<br>
 	${voorstelling.datumTijd}</p>
 	<p>Prijs:<br>
-	${voorstelling.prijs}</p>
+	${voorstelling.prijs}&euro;</p>
 	<p>Vrije plaatsen:<br>
 	${voorstelling.vrijePlaatsen}</p>
+	Plaatsen:
+	<form method='post'>
+		<input name='aantal' type='number' min='1' max='${voorstelling.vrijePlaatsen}' required/>
+		<input type='submit' value='Reserveren'/>
+	</form>
+	
 </body>
 </html>
