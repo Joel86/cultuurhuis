@@ -45,8 +45,17 @@ public class ReservatiemandjeServlet extends HttpServlet {
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
+			String[] idsAlsArray = request.getParameterValues("id");
+			for (String idString : idsAlsArray) {
+				mandje.remove(Long.parseLong(idString));
+			}
+		}
+		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
 	}
 }
