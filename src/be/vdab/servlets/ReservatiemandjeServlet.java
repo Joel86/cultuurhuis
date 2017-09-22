@@ -2,7 +2,6 @@ package be.vdab.servlets;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -21,7 +20,7 @@ import be.vdab.repositories.VoorstellingRepository;
  * Servlet implementation class reservatiemandjeServlet
  */
 @WebServlet("/reservatiemandje.htm")
-public class reservatiemandjeServlet extends HttpServlet {
+public class ReservatiemandjeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/reservatiemandje.jsp";
 	private static final String MANDJE = "mandje";
