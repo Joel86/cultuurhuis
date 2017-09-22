@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import be.vdab.repositories.GenreRepository;
@@ -34,6 +35,11 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 				klantRepository.read(request.getParameter("gebruikersnaam")).getPaswoord());
 		if(!gebruikersnaamBestaat || !paswoordMatchesGebruikersnaam) {
 			request.setAttribute("fout", "Verkeerde gebruikernaam of paswoord");
+		} else {
+			request.setAttribute("klant", klantRepository.read(request.getParameter("gebruikersnaam")));
+			HttpSession session = request.getSession();
+			session.setAttribute("gebruikersnaam", request.getParameter("gebruikersnaam"));
+			session.setAttribute("paswoord", request.getParameter("paswoord"));
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}

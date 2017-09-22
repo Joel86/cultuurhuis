@@ -1,4 +1,4 @@
-<%@page contentType='text/html' pageEncoding='UTF-8' session='false'%>
+<%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!doctype html>
 <html lang='nl'>
@@ -23,13 +23,14 @@
 	<form method='post' action='/nieuweklant.htm'>
 		<input name='nieuweklant' type='submit' value='Ik ben nieuw'>
 	</form>
-	<c:if test='${not empty klant}'>
+	<c:if test='${not empty gebruikersnaam}'>
 		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
 		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}
 	</c:if>
 	<form method='post'>
 		<h2>Stap 2:Bevestigen</h2>
-		<input name='bevestigen' type='submit' value='Bevestigen'>
+		<input name='bevestigen' type='submit' value='Bevestigen'
+			<c:if test='${empty gebruikersnaam}'>disabled</c:if>>
 	</form>
 </body>
 </html>
