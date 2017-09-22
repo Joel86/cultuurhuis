@@ -12,6 +12,9 @@
 		<img src="<c:url value='/images/mandje.png'/>" alt='mandje'>
 	</h1>
 	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a>
+	<c:if test='${not empty sessionScope.mandje}'>
+		<a href="<c:url value='/bevestigen.htm'/>">Bevestiging reservatie</a>
+	</c:if>
 	<c:set var='totaal' value='0'/>
 	<form method='post'>
 		<table>

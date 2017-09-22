@@ -13,7 +13,7 @@
 	</h1>
 	<c:if test='${not empty sessionScope.mandje}'>
 		<a href="<c:url value='/reservatiemandje.htm'/>">Reservatiemandje</a>
-		<a href='/reservatiebevestigen.htm'>Bevestiging reservatie</a>
+		<a href="<c:url value='/bevestigen.htm'/>">Bevestiging reservatie</a>
 	</c:if>
 	<h2>Genres</h2>
 	<ul id='genrelijst'>
