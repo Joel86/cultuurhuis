@@ -22,7 +22,7 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/bevestigen.jsp";
 	private static final KlantRepository klantRepository = new KlantRepository();
-	@Resource(name = GenreRepository.JNDI_NAME)
+	@Resource(name = KlantRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
 		klantRepository.setDataSource(dataSource);
 	}
@@ -30,13 +30,13 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 		request.getRequestDispatcher(VIEW).forward(request,response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean gebruikersnaamBestaat = klantRepository.read(request.getParameter("gebruikersnaam")) != null;
+		boolean gebruikersnaamBestaat = klantRepository.read(request.getParameter("gebruikersnaam")).isPresent();
 		boolean paswoordMatchesGebruikersnaam = (request.getParameter("paswoord")).equals(
-				klantRepository.read(request.getParameter("gebruikersnaam")).getPaswoord());
+				klantRepository.read(request.getParameter("gebruikersnaam")).get().getPaswoord());
 		if(!gebruikersnaamBestaat || !paswoordMatchesGebruikersnaam) {
 			request.setAttribute("fout", "Verkeerde gebruikernaam of paswoord");
 		} else {
-			request.setAttribute("klant", klantRepository.read(request.getParameter("gebruikersnaam")));
+			request.setAttribute("klant", (klantRepository.read(request.getParameter("gebruikersnaam"))).get());
 			HttpSession session = request.getSession();
 			session.setAttribute("gebruikersnaam", request.getParameter("gebruikersnaam"));
 			session.setAttribute("paswoord", request.getParameter("paswoord"));

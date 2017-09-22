@@ -25,14 +25,14 @@ public class ReserverenServlet extends HttpServlet {
 	private static final String VIEW = "/WEB-INF/JSP/reserveren.jsp";
 	private static final String MANDJE = "mandje";
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
-	@Resource(name = GenreRepository.JNDI_NAME)
+	@Resource(name = VoorstellingRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
 		voorstellingRepository.setDataSource(dataSource);
 	}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idString = request.getParameter("id");
-		request.setAttribute("voorstelling", voorstellingRepository.read(Long.parseLong(idString)));
+		request.setAttribute("voorstelling", voorstellingRepository.read(Long.parseLong(idString)).get());
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	@SuppressWarnings("unchecked")

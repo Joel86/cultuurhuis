@@ -25,7 +25,7 @@ public class ReservatiemandjeServlet extends HttpServlet {
 	private static final String VIEW = "/WEB-INF/JSP/reservatiemandje.jsp";
 	private static final String MANDJE = "mandje";
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
-	@Resource(name = GenreRepository.JNDI_NAME)
+	@Resource(name = VoorstellingRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
 		voorstellingRepository.setDataSource(dataSource);
 	}
@@ -39,6 +39,8 @@ public class ReservatiemandjeServlet extends HttpServlet {
 				request.setAttribute("voorstellingenInMandje",
 						(mandje.keySet()).stream()
 						.map(id -> voorstellingRepository.read(id))
+						.filter(optionalVoorstelling -> optionalVoorstelling.isPresent())
+						.map(optionalVoorstelling -> optionalVoorstelling.get())
 						.collect(Collectors.toSet()));
 				request.setAttribute("mandje", mandje);
 			}

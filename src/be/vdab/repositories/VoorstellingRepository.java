@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import be.vdab.entities.Voorstelling;
 
@@ -36,7 +37,7 @@ public class VoorstellingRepository extends AbstractRepository {
 			throw new RepositoryException(ex);
 		}
 	}
-	public Voorstelling read(long id) {
+	public Optional<Voorstelling> read(long id) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -49,7 +50,7 @@ public class VoorstellingRepository extends AbstractRepository {
 				}
 			}
 			connection.commit();
-			return voorstelling;
+			return Optional.ofNullable(voorstelling);
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}

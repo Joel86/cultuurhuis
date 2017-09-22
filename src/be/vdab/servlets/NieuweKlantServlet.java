@@ -3,7 +3,7 @@ package be.vdab.servlets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class NieuweKlantServlet extends HttpServlet {
 	private static final String VIEW = "WEB-INF/JSP/nieuweklant.jsp";
 	private static final String SUCCESS_VIEW = "/WEB-INF/JSP/bevestigen.jsp";
 	private final transient KlantRepository klantRepository = new KlantRepository();
-	@Resource(name = GenreRepository.JNDI_NAME)
+	@Resource(name = KlantRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
 		klantRepository.setDataSource(dataSource);
 	}
@@ -36,8 +36,8 @@ public class NieuweKlantServlet extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String,String> fouten = new HashMap<>();
-		Klant nieuweKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
-		if(nieuweKlant != null) {
+		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
+		if(optionalKlant.isPresent()) {
 			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
 		}
 		if(request.getParameter("voornaam") == null) {
@@ -71,16 +71,15 @@ public class NieuweKlantServlet extends HttpServlet {
 			fouten.put("paswoordFout", "Paswoorden komen niet overeen");
 		}
 		if(fouten.isEmpty()) {
-			nieuweKlant = new Klant(request.getParameter("voornaam"), request.getParameter("familienaam"), 
+			Klant nieuweKlant = new Klant(request.getParameter("voornaam"), request.getParameter("familienaam"), 
 				new Adres(request.getParameter("straat"), Integer.parseInt(request.getParameter("huisnr")), 
 						Integer.parseInt(request.getParameter("postcode")), request.getParameter("gemeente")), 
 					request.getParameter("gebruikersnaam"), request.getParameter("paswoord"));
 			klantRepository.create(nieuweKlant);
 			request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
-		} else {
-			request.setAttribute("fouten", fouten);
-			request.getRequestDispatcher(VIEW).forward(request, response);
 		}
+		request.setAttribute("fouten", fouten);
+		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 }

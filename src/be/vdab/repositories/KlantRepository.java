@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 import be.vdab.entities.Adres;
 import be.vdab.entities.Klant;
@@ -15,7 +16,7 @@ public class KlantRepository extends AbstractRepository {
 			+ " from klanten where gebruikersnaam = ?";
 	private static final String CREATE = "insert into klanten(voornaam, familienaam, straat,"
 			+ " huisnr, postcode, gemeente, gebruikersnaam, paswoord) values (?,?,?,?,?,?,?,?)";
-	public Klant read(String gebruikersnaam) {
+	public Optional<Klant> read(String gebruikersnaam) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME)) {
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -28,7 +29,7 @@ public class KlantRepository extends AbstractRepository {
 				}
 			}
 			connection.commit();
-			return klant;
+			return Optional.ofNullable(klant);
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}
