@@ -23,6 +23,7 @@ import be.vdab.repositories.VoorstellingRepository;
 public class ReserverenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/reserveren.jsp";
+	private static final String MANDJE = "mandje";
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
 	@Resource(name = GenreRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
@@ -37,17 +38,14 @@ public class ReserverenServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		Map<Long, Integer> reservaties = new HashMap<>();
-		if(session != null) {
-			reservaties.putAll(((Map<Long, Integer>)session.getAttribute("reservatiemandje")));
+		HttpSession session = request.getSession();
+		Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
+		if(mandje == null) {
+			mandje = new HashMap<>();
 		}
-		if(session == null) {
-			session = request.getSession();
-		}
-		reservaties.put(Long.parseLong(request.getParameter("id")),
-				Integer.parseInt(request.getParameter("aantal")));
-		session.setAttribute("reservatiemandje", reservaties);
+		mandje.put(Long.parseLong(request.getParameter("id")),
+			Integer.parseInt(request.getParameter("aantal")));
+		session.setAttribute(MANDJE, mandje);
 		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
 	}
 }
