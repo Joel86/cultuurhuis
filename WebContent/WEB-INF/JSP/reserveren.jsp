@@ -19,7 +19,7 @@
 	<p>Datum:<br>
 	${voorstelling.datumTijd}</p>
 	<p>Prijs:<br>
-	${voorstelling.prijs}&euro;</p>
+	&euro;${voorstelling.prijs}</p>
 	<p>Vrije plaatsen:<br>
 	${voorstelling.vrijePlaatsen}</p>
 	Plaatsen:

@@ -26,7 +26,7 @@
 				<td>${voorstellingInMandje.datumTijd}</td>
 				<td>${voorstellingInMandje.titel}</td>
 				<td>${voorstellingInMandje.uitvoerders}</td>
-				<td>${voorstellingInMandje.prijs}</td>
+				<td>&euro;${voorstellingInMandje.prijs}</td>
 				<td>${mandje[voorstellingInMandje.id]}</td>
 			</tr>
 		</c:forEach>

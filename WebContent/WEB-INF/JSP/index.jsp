@@ -36,7 +36,7 @@
 					<td>${genreVoorstelling.datumTijd}</td>
 					<td>${genreVoorstelling.titel}</td> 
 					<td>${genreVoorstelling.uitvoerders}</td>
-					<td>${genreVoorstelling.prijs}</td> 
+					<td>&euro;${genreVoorstelling.prijs}</td> 
 					<td>${genreVoorstelling.vrijePlaatsen}</td>
 					<td>
 						<c:if test='${genreVoorstelling.vrijePlaatsen > 0}'>
