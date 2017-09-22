@@ -23,7 +23,7 @@
 		<input name='opzoeken' type='submit' 
 			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Zoek me op'>
 	</form>
-	<form method='post' action='/nieuweklant.htm'>
+	<form action="<c:url value='/nieuweklant.htm'/>">
 		<input name='nieuweklant' type='submit' 
 			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Ik ben nieuw'>
 	</form>
