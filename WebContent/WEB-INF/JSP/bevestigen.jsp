@@ -17,8 +17,17 @@
 		<input name='gebruikersnaam' autofocus required></label>
 		<label>Paswoord:
 		<input name='paswoord' type='password' required></label>
+		${fout}
 		<input name='opzoeken' type='submit' value='Zoek me op'>
+	</form>
+	<form method='post' action='/nieuweklant.htm'>
 		<input name='nieuweklant' type='submit' value='Ik ben nieuw'>
+	</form>
+	<c:if test='${not empty klant}'>
+		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
+		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}
+	</c:if>
+	<form method='post'>
 		<h2>Stap 2:Bevestigen</h2>
 		<input name='bevestigen' type='submit' value='Bevestigen'>
 	</form>

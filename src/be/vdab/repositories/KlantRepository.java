@@ -10,7 +10,7 @@ import be.vdab.entities.Klant;
 
 public class KlantRepository extends AbstractRepository {
 	private static final String FIND_BY_USERNAME = "select id, voornaam, familienaam,"
-			+ " straat, huisnr, postcode, gemeente, gebruikersnaam"
+			+ " straat, huisnr, postcode, gemeente, gebruikersnaam, paswoord"
 			+ " from klanten where gebruikersnaam = ?";
 	public Klant read(String gebruikersnaam) {
 		try(Connection connection = dataSource.getConnection();
@@ -35,6 +35,6 @@ public class KlantRepository extends AbstractRepository {
 				resultSet.getString("familienaam"), new Adres(resultSet.getString("straat"), 
 						resultSet.getInt("huisnr"), resultSet.getInt("postcode"), 
 						resultSet.getString("gemeente")),
-				resultSet.getString("gebruikersnaam"));
+				resultSet.getString("gebruikersnaam"), resultSet.getString("paswoord"));
 	}
 }
