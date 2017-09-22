@@ -20,11 +20,11 @@
 		<input name='paswoord' type='password' required
 			<c:if test='${not empty gebruikersnaam}'>disabled</c:if>></label>
 		${fout}
-		<input name='opzoeken' type='submit' 
+		<input type='submit' 
 			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Zoek me op'>
 	</form>
 	<form action="<c:url value='/nieuweklant.htm'/>">
-		<input name='nieuweklant' type='submit' 
+		<input type='submit' 
 			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Ik ben nieuw'>
 	</form>
 	<c:if test='${not empty gebruikersnaam}'>
@@ -33,7 +33,7 @@
 	</c:if>
 	<form method='post'>
 		<h2>Stap 2:Bevestigen</h2>
-		<input name='bevestigen' type='submit' value='Bevestigen'
+		<input type='submit' value='Bevestigen'
 			<c:if test='${empty gebruikersnaam}'>disabled</c:if>>
 	</form>
 </body>

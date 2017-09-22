@@ -37,9 +37,6 @@ public class NieuweKlantServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String,String> fouten = new HashMap<>();
 		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
-		if(optionalKlant.isPresent()) {
-			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
-		}
 		if(request.getParameter("voornaam") == null) {
 			fouten.put("voornaamLeeg", "Voornaam niet ingevuld");
 		}
@@ -70,6 +67,9 @@ public class NieuweKlantServlet extends HttpServlet {
 		if(!(request.getParameter("paswoord")).equals(request.getParameter("herhaalpaswoord"))) {
 			fouten.put("paswoordFout", "Paswoorden komen niet overeen");
 		}
+		if(optionalKlant.isPresent()) {
+			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
+		}
 		if(fouten.isEmpty()) {
 			Klant nieuweKlant = new Klant(request.getParameter("voornaam"), request.getParameter("familienaam"), 
 				new Adres(request.getParameter("straat"), Integer.parseInt(request.getParameter("huisnr")), 
@@ -77,9 +77,9 @@ public class NieuweKlantServlet extends HttpServlet {
 					request.getParameter("gebruikersnaam"), request.getParameter("paswoord"));
 			klantRepository.create(nieuweKlant);
 			request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
+		} else {
+			request.setAttribute("fouten", fouten);
 		}
-		request.setAttribute("fouten", fouten);
-		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 }
