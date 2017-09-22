@@ -17,6 +17,13 @@ public class Klant {
 		this.gebruikersnaam = gebruikersnaam;
 		this.paswoord = paswoord;
 	}
+	public Klant(String voornaam, String familienaam, Adres adres, String gebruikersnaam, String paswoord) {
+		this.voornaam = voornaam;
+		this.familienaam = familienaam;
+		this.adres = adres;
+		this.gebruikersnaam = gebruikersnaam;
+		this.paswoord = paswoord;
+	}
 	public long getId() {
 		return id;
 	}
