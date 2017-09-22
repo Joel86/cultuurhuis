@@ -1,4 +1,4 @@
-<%@page contentType='text/html' pageEncoding='UTF-8' session='false'%>
+<%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!doctype html>
 <html lang='nl'>
@@ -11,6 +11,10 @@
 	<h1>Het Cultuurhuis:voorstellingen
 		<img src= <c:url value='/images/voorstellingen.png'/> alt='voorstellingen'>
 	</h1>
+	<c:if test='${not empty sessionScope.mandje}'>
+		<a href="<c:url value='/reservatiemandje.htm'/>">Reservatiemandje</a>
+		<a href='/reservatiebevestigen.htm'>Bevestiging reservatie</a>
+	</c:if>
 	<h2>Genres</h2>
 	<ul id='genrelijst'>
 		<c:forEach var='genre' items='${genres}'>

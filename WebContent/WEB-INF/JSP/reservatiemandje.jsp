@@ -9,10 +9,10 @@
 </head>
 <body>
 	<h1>Het Cultuurhuis:reservatiemandje
-		<img src='/images/mandje.png' alt='mandje'>
+		<img src="<c:url value='/images/mandje.png'/>" alt='mandje'>
 	</h1>
 	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a>
-	<c:set var='totaal' value='0'/>;
+	<c:set var='totaal' value='0'/>
 	<form method='post'>
 		<table>
 			<tr>
