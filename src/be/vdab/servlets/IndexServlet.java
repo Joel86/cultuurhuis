@@ -25,6 +25,11 @@ public class IndexServlet extends HttpServlet {
 	private static final String VIEW = "/WEB-INF/JSP/index.jsp";
 	private final transient GenreRepository genreRepository = new GenreRepository();
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
+	@Resource(name = GenreRepository.JNDI_NAME)
+	void setDataSource(DataSource dataSource) {
+		genreRepository.setDataSource(dataSource);
+		voorstellingRepository.setDataSource(dataSource);
+	}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Genre> genres = genreRepository.findAll();
@@ -39,10 +44,5 @@ public class IndexServlet extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-	@Resource(name = GenreRepository.JNDI_NAME)
-	void setDataSource(DataSource dataSource) {
-		genreRepository.setDataSource(dataSource);
-		voorstellingRepository.setDataSource(dataSource);
 	}
 }

@@ -24,14 +24,19 @@ public class ReserverenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/reserveren.jsp";
 	private final transient VoorstellingRepository voorstellingRepository = new VoorstellingRepository();
+	@Resource(name = GenreRepository.JNDI_NAME)
+	void setDataSource(DataSource dataSource) {
+		voorstellingRepository.setDataSource(dataSource);
+	}
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idString = request.getParameter("id");
 		request.setAttribute("voorstelling", voorstellingRepository.read(Long.parseLong(idString)));
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	@SuppressWarnings("unchecked")
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession(false);
 		Map<Long, Integer> reservaties = new HashMap<>();
 		if(session != null) {
@@ -44,9 +49,5 @@ public class ReserverenServlet extends HttpServlet {
 				Integer.parseInt(request.getParameter("aantal")));
 		session.setAttribute("reservatiemandje", reservaties);
 		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
-	}
-	@Resource(name = GenreRepository.JNDI_NAME)
-	void setDataSource(DataSource dataSource) {
-		voorstellingRepository.setDataSource(dataSource);
 	}
 }
