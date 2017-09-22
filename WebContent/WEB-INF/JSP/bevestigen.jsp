@@ -14,14 +14,18 @@
 	<form method='post'>
 		<h2>Stap 1:Wie ben je?</h2>
 		<label>Gebruikersnaam:
-		<input name='gebruikersnaam' autofocus required></label>
+		<input name='gebruikersnaam' autofocus required
+			<c:if test='${not empty gebruikersnaam}'>disabled</c:if>></label>
 		<label>Paswoord:
-		<input name='paswoord' type='password' required></label>
+		<input name='paswoord' type='password' required
+			<c:if test='${not empty gebruikersnaam}'>disabled</c:if>></label>
 		${fout}
-		<input name='opzoeken' type='submit' value='Zoek me op'>
+		<input name='opzoeken' type='submit' 
+			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Zoek me op'>
 	</form>
 	<form method='post' action='/nieuweklant.htm'>
-		<input name='nieuweklant' type='submit' value='Ik ben nieuw'>
+		<input name='nieuweklant' type='submit' 
+			<c:if test='${not empty gebruikersnaam}'>disabled</c:if> value='Ik ben nieuw'>
 	</form>
 	<c:if test='${not empty gebruikersnaam}'>
 		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
