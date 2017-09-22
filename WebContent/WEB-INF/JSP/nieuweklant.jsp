@@ -34,12 +34,15 @@
 			<input name='gebruikersnaam' required>
 		</label>
 		<label>Paswoord:
-			<input name='paswoord' required>
+			<input name='paswoord' type='password' required>
 		</label>
 		<label>Herhaal paswoord:
-			<input name='herhaalpaswoord' required>
+			<input name='herhaalpaswoord' type='password' required>
 		</label>
 		<input type='submit' value='OK'>
 	</form>
+	<c:forEach var='fout' items='${fouten}'>
+			${fout.value}
+	</c:forEach>
 </body>
 </html>
