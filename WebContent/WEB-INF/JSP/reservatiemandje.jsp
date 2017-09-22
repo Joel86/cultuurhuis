@@ -23,11 +23,11 @@
 		</tr>
 		<c:forEach var='voorstellingInMandje' items='${voorstellingenInMandje}'>
 			<tr>
-				<th>${voorstellingInMandje.datumTijd}</th>
-				<th>${voorstellingInMandje.titel}</th>
-				<th>${voorstellingInMandje.uitvoerders}</th>
-				<th>${voorstellingInMandje.prijs}</th>
-				<th></th>
+				<td>${voorstellingInMandje.datumTijd}</td>
+				<td>${voorstellingInMandje.titel}</td>
+				<td>${voorstellingInMandje.uitvoerders}</td>
+				<td>${voorstellingInMandje.prijs}</td>
+				<td>${mandje[voorstellingInMandje.id]}</td>
 			</tr>
 		</c:forEach>
 	</table>

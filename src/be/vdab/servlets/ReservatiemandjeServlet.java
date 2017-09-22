@@ -40,6 +40,7 @@ public class ReservatiemandjeServlet extends HttpServlet {
 						(mandje.keySet()).stream()
 						.map(id -> voorstellingRepository.read(id))
 						.collect(Collectors.toSet()));
+				request.setAttribute("mandje", mandje);
 			}
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
