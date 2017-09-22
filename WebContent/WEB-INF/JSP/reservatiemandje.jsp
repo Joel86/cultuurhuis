@@ -12,6 +12,7 @@
 		<img src='/images/mandje.png' alt='mandje'>
 	</h1>
 	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a>
+	<c:set var='totaal' value='0'/>;
 	<form method='post'>
 		<table>
 			<tr>
@@ -23,6 +24,7 @@
 				<th><input type='submit' value='Verwijderen'/></th>
 			</tr>
 			<c:forEach var='voorstellingInMandje' items='${voorstellingenInMandje}'>
+				<c:set var='subtotaal' value='${voorstellingInMandje.prijs * mandje[voorstellingInMandje.id]}'/>
 				<tr>
 					<td>${voorstellingInMandje.datumTijd}</td>
 					<td>${voorstellingInMandje.titel}</td>
@@ -33,8 +35,10 @@
 						<input type='checkbox' name='id' value='${voorstellingInMandje.id}'>	
 					</td>
 				</tr>
+				<c:set var='totaal' value='${totaal + subtotaal}'/>
 			</c:forEach>
 		</table>
 	</form>
+	Te betalen: &euro;${totaal}
 </body>
 </html>
