@@ -15,26 +15,28 @@
 		<h2>Stap 1:Wie ben je?</h2>
 		<label>Gebruikersnaam:
 		<input name='gebruikersnaam' autofocus required
-			<c:if test='${not empty klant}'>disabled</c:if>></label>
+			<c:if test='${not empty gebruikersnaamSession}'>disabled</c:if>
+			value='${gebruikersnaamSession}'></label>
 		<label>Paswoord:
 		<input name='paswoord' type='password' required
-			<c:if test='${not empty klant}'>disabled</c:if>></label>
+			<c:if test='${not empty gebruikersnaamSession}'>disabled</c:if>
+			value='${paswoordSession}'></label>
 		${fout}
 		<input type='submit' 
-			<c:if test='${not empty klant}'>disabled</c:if> value='Zoek me op'>
+			<c:if test='${not empty gebruikersnaamSession}'>disabled</c:if> value='Zoek me op'>
 	</form>
-	<form action='/nieuweklant.htm'>	
+	<form action='<c:url value="/nieuweklant.htm"/>'>	
 		<input type='submit' 
-			<c:if test='${not empty klant}'>disabled</c:if> value='Ik ben nieuw'>
+			<c:if test='${not empty gebruikersnaamSession}'>disabled</c:if> value='Ik ben nieuw'>
 	</form>
-	<c:if test='${not empty klant}'>
+	<c:if test='${not empty gebruikersnaamSession}'>
 		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
 		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}
 	</c:if>
 	<form action='/overzicht.htm'>
 		<h2>Stap 2:Bevestigen</h2>
 		<input type='submit' value='Bevestigen'
-			<c:if test='${empty klant}'>disabled</c:if>>
+			<c:if test='${empty gebruikersnaamSession}'>disabled</c:if>>
 	</form>
 </body>
 </html>

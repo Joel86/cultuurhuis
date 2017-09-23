@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import be.vdab.entities.Adres;
@@ -74,6 +75,9 @@ public class NieuweKlantServlet extends HttpServlet {
 						Integer.parseInt(request.getParameter("postcode")), request.getParameter("gemeente")), 
 					request.getParameter("gebruikersnaam"), request.getParameter("paswoord"));
 			klantRepository.create(nieuweKlant);
+			HttpSession session = request.getSession();
+			session.setAttribute("gebruikersnaamSession", request.getParameter("gebruikersnaam"));
+			session.setAttribute("paswoordSession", request.getParameter("paswoord"));
 			response.sendRedirect(request.getContextPath() + "/bevestigen.htm");
 		} else {
 			request.setAttribute("fouten", fouten);

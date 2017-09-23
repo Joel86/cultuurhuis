@@ -28,7 +28,15 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 		klantRepository.setDataSource(dataSource);
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher(VIEW).forward(request,response);
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			String gebruikersnaamString = (String)session.getAttribute("gebruikersnaamSession");
+			if(gebruikersnaamString != null) {
+				Optional<Klant> optionalKlant = klantRepository.read(gebruikersnaamString);
+				request.setAttribute("klant", optionalKlant.get());
+			}
+		}
+		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
