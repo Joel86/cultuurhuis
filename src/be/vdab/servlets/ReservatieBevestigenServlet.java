@@ -1,6 +1,7 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import be.vdab.repositories.GenreRepository;
+import be.vdab.entities.Klant;
 import be.vdab.repositories.KlantRepository;
 
 /**
@@ -30,18 +31,16 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 		request.getRequestDispatcher(VIEW).forward(request,response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean gebruikersnaamBestaat = klantRepository.read(request.getParameter("gebruikersnaam")).isPresent();
-		boolean paswoordMatchesGebruikersnaam = (request.getParameter("paswoord")).equals(
-				klantRepository.read(request.getParameter("gebruikersnaam")).get().getPaswoord());
-		if(!gebruikersnaamBestaat || !paswoordMatchesGebruikersnaam) {
-			request.setAttribute("fout", "Verkeerde gebruikernaam of paswoord");
-			request.getRequestDispatcher(VIEW).forward(request, response);
-		} else {
-			request.setAttribute("klant", (klantRepository.read(request.getParameter("gebruikersnaam"))).get());
+		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
+		if(optionalKlant.isPresent() && request.getParameter("paswoord").equals(optionalKlant.get().getPaswoord())) {
+			request.setAttribute("klant", optionalKlant.get());
 			HttpSession session = request.getSession();
-			session.setAttribute("gebruikersnaam", request.getParameter("gebruikersnaam"));
-			session.setAttribute("paswoord", request.getParameter("paswoord"));
+			session.setAttribute("gebruikersnaamSession", request.getParameter("gebruikersnaam"));
+			session.setAttribute("paswoordSession", request.getParameter("paswoord"));
+		}else {
+			request.setAttribute("fout", "Verkeerde gebruikersnaam of paswoord");
 		}
+		request.getRequestDispatcher(VIEW).forward(request,response);
 	}
 
 }
