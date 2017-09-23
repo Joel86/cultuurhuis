@@ -35,13 +35,13 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 				klantRepository.read(request.getParameter("gebruikersnaam")).get().getPaswoord());
 		if(!gebruikersnaamBestaat || !paswoordMatchesGebruikersnaam) {
 			request.setAttribute("fout", "Verkeerde gebruikernaam of paswoord");
+			request.getRequestDispatcher(VIEW).forward(request, response);
 		} else {
 			request.setAttribute("klant", (klantRepository.read(request.getParameter("gebruikersnaam"))).get());
 			HttpSession session = request.getSession();
 			session.setAttribute("gebruikersnaam", request.getParameter("gebruikersnaam"));
 			session.setAttribute("paswoord", request.getParameter("paswoord"));
 		}
-		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 }

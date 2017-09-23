@@ -19,17 +19,19 @@ public class KlantRepository extends AbstractRepository {
 	public Optional<Klant> read(String gebruikersnaam) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(FIND_BY_USERNAME)) {
+			Optional<Klant> klant;
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			connection.setAutoCommit(false);
 			statement.setString(1, gebruikersnaam);
-			Klant klant = new Klant();
 			try(ResultSet resultSet = statement.executeQuery()) {
 				if(resultSet.next()) {
-					klant = resultSetRijNaarKlant(resultSet);
+					klant = Optional.of(resultSetRijNaarKlant(resultSet));
+				}else {
+					klant = Optional.empty();
 				}
 			}
 			connection.commit();
-			return Optional.ofNullable(klant);
+			return klant;
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}

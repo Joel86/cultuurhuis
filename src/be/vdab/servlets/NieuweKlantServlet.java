@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 
 import be.vdab.entities.Adres;
 import be.vdab.entities.Klant;
-import be.vdab.repositories.GenreRepository;
 import be.vdab.repositories.KlantRepository;
 
 /**
@@ -25,7 +24,6 @@ import be.vdab.repositories.KlantRepository;
 public class NieuweKlantServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "WEB-INF/JSP/nieuweklant.jsp";
-	private static final String SUCCESS_VIEW = "/WEB-INF/JSP/bevestigen.jsp";
 	private final transient KlantRepository klantRepository = new KlantRepository();
 	@Resource(name = KlantRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
@@ -37,6 +35,9 @@ public class NieuweKlantServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String,String> fouten = new HashMap<>();
 		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
+		if(optionalKlant.isPresent()) {
+			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
+		}
 		if(request.getParameter("voornaam") == null) {
 			fouten.put("voornaamLeeg", "Voornaam niet ingevuld");
 		}
@@ -67,18 +68,16 @@ public class NieuweKlantServlet extends HttpServlet {
 		if(!(request.getParameter("paswoord")).equals(request.getParameter("herhaalpaswoord"))) {
 			fouten.put("paswoordFout", "Paswoorden komen niet overeen");
 		}
-		if(optionalKlant.isPresent()) {
-			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
-		}
 		if(fouten.isEmpty()) {
 			Klant nieuweKlant = new Klant(request.getParameter("voornaam"), request.getParameter("familienaam"), 
 				new Adres(request.getParameter("straat"), Integer.parseInt(request.getParameter("huisnr")), 
 						Integer.parseInt(request.getParameter("postcode")), request.getParameter("gemeente")), 
 					request.getParameter("gebruikersnaam"), request.getParameter("paswoord"));
 			klantRepository.create(nieuweKlant);
-			request.getRequestDispatcher(SUCCESS_VIEW).forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/bevestigen.htm");
 		} else {
 			request.setAttribute("fouten", fouten);
+			request.getRequestDispatcher(VIEW).forward(request, response);
 		}
 	}
 
