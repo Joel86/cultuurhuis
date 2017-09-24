@@ -39,16 +39,21 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
-		if(optionalKlant.isPresent() && request.getParameter("paswoord").equals(optionalKlant.get().getPaswoord())) {
-			request.setAttribute("klant", optionalKlant.get());
-			HttpSession session = request.getSession();
-			session.setAttribute("gebruikersnaamSession", request.getParameter("gebruikersnaam"));
-			session.setAttribute("paswoordSession", request.getParameter("paswoord"));
-		}else {
-			request.setAttribute("fout", "Verkeerde gebruikersnaam of paswoord");
+		if(request.getParameter("zoekMeOp") != null) {	
+			Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
+			if(optionalKlant.isPresent() && request.getParameter("paswoord").equals(optionalKlant.get().getPaswoord())) {
+				request.setAttribute("klant", optionalKlant.get());
+				HttpSession session = request.getSession();
+				session.setAttribute("gebruikersnaamSession", request.getParameter("gebruikersnaam"));
+				session.setAttribute("paswoordSession", request.getParameter("paswoord"));
+			}else {
+				request.setAttribute("fout", "Verkeerde gebruikersnaam of paswoord");
+			}
+			request.getRequestDispatcher(VIEW).forward(request,response);
 		}
-		request.getRequestDispatcher(VIEW).forward(request,response);
+		else if(request.getParameter("bevestigen") != null) {
+			response.encodeRedirectURL(request.getContextPath() + "/overzicht.htm");
+		}
 	}
 
 }
