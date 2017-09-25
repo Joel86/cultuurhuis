@@ -8,34 +8,55 @@ public class Adres {
 	public Adres() {
 	}
 	public Adres(String straat, int huisNr, int postcode, String gemeente) {
-		this.straat = straat;
-		this.huisNr = huisNr;
-		this.postcode = postcode;
-		this.gemeente = gemeente;
+		setStraat(straat);
+		setHuisNr(huisNr);
+		setPostcode(postcode);
+		setGemeente(gemeente);
 	}
 	public String getStraat() {
 		return straat;
 	}
 	public void setStraat(String straat) {
-		this.straat = straat;
+		if(isStringValid(straat)) {
+			this.straat = straat;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public int getHuisNr() {
 		return huisNr;
 	}
 	public void setHuisNr(int huisNr) {
-		this.huisNr = huisNr;
+		if(isIntValid(huisNr)) {
+			this.huisNr = huisNr;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public int getPostcode() {
 		return postcode;
 	}
 	public void setPostcode(int postcode) {
-		this.postcode = postcode;
+		if(isIntValid(postcode)) {
+			this.postcode = postcode;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public String getGemeente() {
 		return gemeente;
 	}
 	public void setGemeente(String gemeente) {
-		this.gemeente = gemeente;
+		if(isStringValid(gemeente)) {
+			this.gemeente = gemeente;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
-	
+	public static boolean isStringValid(String string) {
+		return string != null && !string.trim().isEmpty();
+	}
+	public static boolean isIntValid(int integer) {
+		return integer >= 0;
+	}
 }

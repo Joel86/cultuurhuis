@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import be.vdab.entities.Adres;
 import be.vdab.entities.Klant;
 import be.vdab.repositories.KlantRepository;
+import be.vdab.util.StringUtils;
 
 /**
  * Servlet implementation class NieuweKlantServlet
@@ -39,31 +40,40 @@ public class NieuweKlantServlet extends HttpServlet {
 		if(optionalKlant.isPresent()) {
 			fouten.put("gebruikersnaamInGebruik", "Gebruikersnaam bestaat al. Kies een andere.");
 		}
-		if(request.getParameter("voornaam") == null) {
+		String voornaam = request.getParameter("voornaam");
+		if(voornaam == null || !Klant.isStringValid(voornaam)) {
 			fouten.put("voornaamLeeg", "Voornaam niet ingevuld");
 		}
-		if(request.getParameter("familienaam") == null) {
+		String familienaam = request.getParameter("familienaam");
+		if(familienaam == null || !Klant.isStringValid(familienaam)) {
 			fouten.put("familienaamLeeg", "Familienaam niet ingevuld");
 		}
-		if(request.getParameter("straat") == null) {
+		String straat = request.getParameter("straat");
+		if(straat == null || !Adres.isStringValid(straat)) {
 			fouten.put("straatLeeg", "Straat niet ingevuld");
 		}
-		if(request.getParameter("huisnr") == null) {
+		String huisnr = request.getParameter("huisnr");
+		if(!StringUtils.isInt(huisnr) || !Adres.isIntValid(Integer.parseInt(huisnr))) {
 			fouten.put("huisnrLeeg", "Huisnr. niet ingevuld");
 		}
-		if(request.getParameter("postcode") == null) {
+		String postcode = request.getParameter("postcode");
+		if(!StringUtils.isInt(postcode) || !Adres.isIntValid(Integer.parseInt(postcode))) {
 			fouten.put("postcodeLeeg", "Postcode niet ingevuld");
 		}
-		if(request.getParameter("gemeente") == null) {
+		String gemeente = request.getParameter("gemeente");
+		if(gemeente == null || !Adres.isStringValid(gemeente)) {
 			fouten.put("gemeenteLeeg", "Gemeente niet ingevuld");
 		}
-		if(request.getParameter("gebruikersnaam") == null) {
+		String gebruikersnaam = request.getParameter("gebruikersnaam");
+		if(gebruikersnaam == null || !Klant.isStringValid(gebruikersnaam)) {
 			fouten.put("gebruikersnaamLeeg", "Gebruikersnaam niet ingevuld");
 		}
-		if(request.getParameter("paswoord") == null) {
+		String paswoord = request.getParameter("paswoord");
+		if(paswoord == null || !Klant.isStringValid(paswoord)) {
 			fouten.put("paswoord", "Paswoord niet ingevuld");
 		}
-		if(request.getParameter("herhaalpaswoord") == null) {
+		String herhaalPaswoord = request.getParameter("herhaalpaswoord");
+		if(herhaalPaswoord == null || !Klant.isStringValid(herhaalPaswoord)) {
 			fouten.put("herhaalpaswoordLeeg", "Herhaal paswoord niet ingevuld");
 		}
 		if(!(request.getParameter("paswoord")).equals(request.getParameter("herhaalpaswoord"))) {

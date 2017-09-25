@@ -9,20 +9,16 @@ public class Klant {
 	private String paswoord;
 	public Klant() {
 	}
-	public Klant(long id, String voornaam, String familienaam, Adres adres, String gebruikersnaam, String paswoord) {
-		this.id = id;
-		this.voornaam = voornaam;
-		this.familienaam = familienaam;
-		this.adres = adres;
-		this.gebruikersnaam = gebruikersnaam;
-		this.paswoord = paswoord;
-	}
 	public Klant(String voornaam, String familienaam, Adres adres, String gebruikersnaam, String paswoord) {
-		this.voornaam = voornaam;
-		this.familienaam = familienaam;
-		this.adres = adres;
-		this.gebruikersnaam = gebruikersnaam;
-		this.paswoord = paswoord;
+		setVoornaam(voornaam);
+		setFamilienaam(familienaam);
+		setAdres(adres);
+		setGebruikersnaam(gebruikersnaam);
+		setPaswoord(paswoord);
+	}
+	public Klant(long id, String voornaam, String familienaam, Adres adres, String gebruikersnaam, String paswoord) {
+		this(voornaam, familienaam, adres, gebruikersnaam, paswoord);
+		setId(id);
 	}
 	public long getId() {
 		return id;
@@ -34,30 +30,53 @@ public class Klant {
 		return voornaam;
 	}
 	public void setVoornaam(String voornaam) {
-		this.voornaam = voornaam;
+		if(isStringValid(voornaam)) {
+			this.voornaam = voornaam;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public String getFamilienaam() {
 		return familienaam;
 	}
 	public void setFamilienaam(String familienaam) {
-		this.familienaam = familienaam;
+		if(isStringValid(familienaam)) {
+			this.familienaam = familienaam;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public Adres getAdres() {
 		return adres;
 	}
 	public void setAdres(Adres adres) {
-		this.adres = adres;
+		if(adres != null) {
+			this.adres = adres;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public String getGebruikersnaam() {
 		return gebruikersnaam;
 	}
 	public void setGebruikersnaam(String gebruikersnaam) {
-		this.gebruikersnaam = gebruikersnaam;
+		if(isStringValid(gebruikersnaam)) {
+			this.gebruikersnaam = gebruikersnaam;
+		}else {
+			throw new IllegalArgumentException();
+		}
 	}
 	public String getPaswoord() {
 		return paswoord;
 	}
 	public void setPaswoord(String paswoord) {
-		this.paswoord = paswoord;
+		if(isStringValid(paswoord)) {
+			this.paswoord = paswoord;
+		}else {
+			throw new IllegalArgumentException();
+		}
+	}
+	public static boolean isStringValid(String string) {
+		return string != null && !string.trim().isEmpty();
 	}
 }
