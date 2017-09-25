@@ -18,6 +18,8 @@ public class VoorstellingRepository extends AbstractRepository {
 	private static final String FIND_PERFORMANCES_FROM_DATE_BY_GENRE = 
 			"select id, titel, uitvoerders, datum, prijs, vrijeplaatsen from voorstellingen where genreid = ?"
 			+ " and datum >= ? order by datum asc";
+	private static final String UPDATE_PLAATSEN = "update voorstellingen set vrijeplaatsen = vrijeplaatsen - ?"
+			+ " where id = ? and vrijeplaatsen >= ?";
 	public List<Voorstelling> findFuturePerformancesByGenre(long id, LocalDateTime datumTijd) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCES_FROM_DATE_BY_GENRE)) {
@@ -51,6 +53,21 @@ public class VoorstellingRepository extends AbstractRepository {
 			}
 			connection.commit();
 			return Optional.ofNullable(voorstelling);
+		} catch(SQLException ex) {
+			throw new RepositoryException(ex);
+		}
+	}
+	public boolean updateVrijePlaatsen(long id, int aantal) {
+		try(Connection connection = dataSource.getConnection();
+				PreparedStatement statement = connection.prepareStatement(UPDATE_PLAATSEN)) {
+			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+			connection.setAutoCommit(false);
+			statement.setInt(1, aantal);
+			statement.setLong(2, id);
+			statement.setInt(3, aantal);
+			int aantalGewijzigd = statement.executeUpdate();
+			connection.commit();
+			return aantalGewijzigd > 0;
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}
