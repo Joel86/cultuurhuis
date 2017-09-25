@@ -29,10 +29,19 @@ public class ReserverenServlet extends HttpServlet {
 	void setDataSource(DataSource dataSource) {
 		voorstellingRepository.setDataSource(dataSource);
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idString = request.getParameter("id");
-		request.setAttribute("voorstelling", voorstellingRepository.read(Long.parseLong(idString)).get());
+		Long id = Long.parseLong(idString);
+		request.setAttribute("voorstelling", voorstellingRepository.read(id).get());
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
+			if(mandje != null && mandje.containsKey(id)) {
+				request.setAttribute("aantalPlaatsenGereserveerd", mandje.get(id));
+			}
+		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	@SuppressWarnings("unchecked")
