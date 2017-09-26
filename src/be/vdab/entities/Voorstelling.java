@@ -23,15 +23,6 @@ public class Voorstelling {
 		this.prijs = prijs;
 		this.vrijePlaatsen = vrijePlaatsen;
 	}
-	public Voorstelling(long id, String titel, String uitvoerders, LocalDateTime datumTijd, 
-			BigDecimal prijs, int vrijePlaatsen) {
-		this.id = id;
-		this.titel = titel;
-		this.uitvoerders = uitvoerders;
-		this.datumTijd = datumTijd;
-		this.prijs = prijs;
-		this.vrijePlaatsen = vrijePlaatsen;
-	}
 	public long getId() {
 		return id;
 	}

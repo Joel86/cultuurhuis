@@ -18,15 +18,15 @@
 	<h2>Genres</h2>
 	<ul id='genrelijst'>
 		<c:forEach var='genre' items='${genres}'>
-			<c:url value='/index.htm' var='voorstellingenGenreURL'>
+			<c:url value='/index.htm' var='genreVoorstellingURL'>
 				<c:param name='id' value="${genre.id}"/>
 			</c:url>
-			<li><a href='${voorstellingenGenreURL}'>${genre.naam}</a></li>
+			<li><a href='${genreVoorstellingURL}'>${genre.naam}</a></li>
 		</c:forEach>
 	</ul>
 	<c:if test='${not empty genreVoorstellingen}'>
 		<table>
-		<caption>test</caption>
+		<caption>${genreVoorstellingen[1].genre.naam} voorstellingen</caption>
 			<tr>
 				<th>Datum</th>
 				<th>Titel</th>
@@ -53,6 +53,9 @@
 				</tr>
 			</c:forEach>
 		</table>
+	</c:if>
+	<c:if test='${empty genreVoorstellingen and not empty param.id}'>
+		Geen voorstellingen gevonden.
 	</c:if>
 </body>
 </html>

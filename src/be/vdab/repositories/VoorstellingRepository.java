@@ -10,13 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import be.vdab.entities.Genre;
 import be.vdab.entities.Voorstelling;
 
 public class VoorstellingRepository extends AbstractRepository {
-	private static final String SELECT_BY_ID = "select id, titel, uitvoerders, datum, prijs, vrijeplaatsen"
-			+ " from voorstellingen where id = ?";
+	private static final String SELECT_BY_ID = "select voorstellingen.id as voorstellingid,"
+			+ " titel, uitvoerders, datum, genreid, genres.naam as genrenaam, prijs, vrijeplaatsen"
+			+ " from voorstellingen inner join genres on genreid = genres.id"
+			+ " where voorstellingen.id = ?";
 	private static final String FIND_PERFORMANCES_FROM_DATE_BY_GENRE = 
-			"select id, titel, uitvoerders, datum, prijs, vrijeplaatsen from voorstellingen where genreid = ?"
+			"select voorstellingen.id as voorstellingid, titel, uitvoerders, datum, genreid,"
+			+ " genres.naam as genrenaam,"
+			+ " prijs, vrijeplaatsen from voorstellingen inner join genres on"
+			+ " genreid = genres.id where genreid = ?"
 			+ " and datum >= ? order by datum asc";
 	private static final String UPDATE_PLAATSEN = "update voorstellingen set vrijeplaatsen = vrijeplaatsen - ?"
 			+ " where id = ? and vrijeplaatsen >= ?";
@@ -26,7 +32,7 @@ public class VoorstellingRepository extends AbstractRepository {
 			List<Voorstelling> voorstellingen = new ArrayList<>();
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			connection.setAutoCommit(false);
-			statement.setLong(1,id);
+			statement.setLong(1, id);
 			statement.setTimestamp(2, Timestamp.valueOf(datumTijd));
 			try(ResultSet resultSet = statement.executeQuery()) {
 				while(resultSet.next()) {
@@ -73,8 +79,9 @@ public class VoorstellingRepository extends AbstractRepository {
 		}
 	}
 	private Voorstelling resultSetRijNaarVoorstelling(ResultSet resultSet) throws SQLException {
-		return new Voorstelling(resultSet.getLong("id"), resultSet.getString("titel"), 
+		return new Voorstelling(resultSet.getLong("voorstellingid"), resultSet.getString("titel"), 
 				resultSet.getString("uitvoerders"), resultSet.getTimestamp("datum").toLocalDateTime(),
+				new Genre(resultSet.getLong("genreid"), resultSet.getString("genrenaam")),
 				resultSet.getBigDecimal("prijs"), resultSet.getInt("vrijePlaatsen"));
 	}
 }

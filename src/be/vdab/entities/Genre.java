@@ -9,6 +9,9 @@ public class Genre {
 		this.id = id;
 		this.naam = naam;
 	}
+	public Genre(long id) {
+		this.id = id;
+	}
 	public long getId() {
 		return id;
 	}

@@ -13,8 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import be.vdab.entities.Voorstelling;
 import be.vdab.repositories.GenreRepository;
+import be.vdab.repositories.KlantRepository;
 import be.vdab.repositories.VoorstellingRepository;
+import be.vdab.util.StringUtils;
 
 /**
  * Servlet implementation class ReserverenServlet
@@ -29,32 +32,62 @@ public class ReserverenServlet extends HttpServlet {
 	void setDataSource(DataSource dataSource) {
 		voorstellingRepository.setDataSource(dataSource);
 	}
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idString = request.getParameter("id");
-		Long id = Long.parseLong(idString);
-		request.setAttribute("voorstelling", voorstellingRepository.read(id).get());
-		HttpSession session = request.getSession(false);
-		if(session != null) {
-			Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
-			if(mandje != null && mandje.containsKey(id)) {
-				request.setAttribute("aantalPlaatsenGereserveerd", mandje.get(id));
+		Map<String, String> fouten = new HashMap<>();
+		if(!StringUtils.isLong(idString)) {
+			fouten.put("voorstelling", "Voorstelling niet gevonden");
+		}else {
+			Long id = Long.parseLong(idString);
+			voorstellingRepository.read(id).ifPresent(
+					voorstelling -> request.setAttribute("voorstelling", voorstelling));
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				@SuppressWarnings("unchecked")
+				Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
+				if(mandje != null && mandje.containsKey(id)) {
+					request.setAttribute("aantalPlaatsenGereserveerd", mandje.get(id));
+				}		
 			}
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
-		if(mandje == null) {
-			mandje = new HashMap<>();
+		String aantalString = request.getParameter("aantal");
+		String idString = request.getParameter("id");
+		Long id = Long.parseLong(idString);
+		voorstellingRepository.read(id).ifPresent(
+				voorstelling -> request.setAttribute("voorstelling", voorstelling));
+		Map<String, String> fouten = new HashMap<>();
+		if(aantalString == null) {
+			fouten.put("aantal", "Verplicht");
 		}
-		mandje.put(Long.parseLong(request.getParameter("id")),
+		if(!StringUtils.isInt(aantalString)) {
+			fouten.put("aantal", "Tik een cijfer");
+		}else {
+			if(Integer.parseInt(aantalString) < 1) {
+				fouten.put("aantal", "Tik een getal tussen 1 en ");
+			} else if(Integer.parseInt(aantalString) > voorstellingRepository.read(
+					Long.parseLong(idString)).get().getVrijePlaatsen()) {
+				fouten.put("aantal", "Tik een getal tussen 1 en ");
+			}
+		}
+		if(fouten.isEmpty()) {
+			HttpSession session = request.getSession();
+			@SuppressWarnings("unchecked")
+			Map<Long, Integer> mandje = ((Map<Long, Integer>)session.getAttribute(MANDJE));
+			if(mandje == null) {
+				mandje = new HashMap<>();
+			}
+			mandje.put(Long.parseLong(request.getParameter("id")),
 			Integer.parseInt(request.getParameter("aantal")));
-		session.setAttribute(MANDJE, mandje);
-		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
+			session.setAttribute(MANDJE, mandje);
+			response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
+		}else {
+			request.setAttribute("fouten", fouten);
+			request.getRequestDispatcher(VIEW).forward(request, response);
+		}
 	}
 }

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import be.vdab.entities.Genre;
 import be.vdab.repositories.GenreRepository;
 import be.vdab.repositories.VoorstellingRepository;
+import be.vdab.util.StringUtils;
 
 /**
  * Servlet implementation class IndexServlet
@@ -37,8 +38,10 @@ public class IndexServlet extends HttpServlet {
 		LocalDateTime vandaag = LocalDateTime.now();
 		if(request.getParameter("id") != null) {
 			String idString = request.getParameter("id");
-			request.setAttribute("genreVoorstellingen",
+			if(StringUtils.isLong(idString)) {
+				request.setAttribute("genreVoorstellingen",
 					voorstellingRepository.findFuturePerformancesByGenre(Long.parseLong(idString), vandaag));
+			}
 		}
 		request.getRequestDispatcher(VIEW).forward(request,response);
 	}

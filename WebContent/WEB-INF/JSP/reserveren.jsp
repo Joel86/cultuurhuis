@@ -1,4 +1,4 @@
-<%@page contentType='text/html' pageEncoding='UTF-8' session='false'%>
+<%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!doctype html>
 <html lang='nl'>
@@ -24,8 +24,11 @@
 	${voorstelling.vrijePlaatsen}</p>
 	Plaatsen:
 	<form method='post'>
-		<input name='aantal' type='number' min='1' max='${voorstelling.vrijePlaatsen}' 
-			value='${aantalPlaatsenGereserveerd}'required/>
+		<input name='aantal' type='number' 
+			value='${aantalPlaatsenGereserveerd}' required/>
+		<c:if test='${not empty fouten}'>
+			${fouten.aantal}${voorstelling.vrijePlaatsen}
+		</c:if>
 		<input type='submit' value='Reserveren'/>
 	</form>
 	
