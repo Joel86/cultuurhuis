@@ -1,16 +1,16 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <head>
-	<c:import url='/WEB-INF/JSP/head.jsp'>
-		<c:param name='title' value='Reservatie bevestigen'/>
-	</c:import>
+	<vdab:head title='Reservatie bevestigen'/>
 </head>
 <body>
 	<h1>Het Cultuurhuis:bevestiging reservaties
 		<img src="<c:url value='/images/bevestig.png'/>" alt='Bevestig'>
 	</h1>
+	<vdab:menu hideBevestigen='true'/>
 	<form method='post'>
 		<h2>Stap 1:Wie ben je?</h2>
 		<label>Gebruikersnaam:

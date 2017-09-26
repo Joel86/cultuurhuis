@@ -1,17 +1,16 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <head>
-	<c:import url='/WEB-INF/JSP/head.jsp'>
-		<c:param name='title' value='Reserveren'/>
-	</c:import>
+	<vdab:head title='Reserveren'/>
 </head>
 <body>
 	<h1>Het Cultuurhuis:reserveren
 		<img src= <c:url value='/images/reserveren.png'/> alt='reserveren'>
 	</h1>
-	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a><br>
+	<vdab:menu/>
 	<p>Voorstelling:<br>
 	${voorstelling.titel}</p>
 	<p>Uitvoerders:<br>

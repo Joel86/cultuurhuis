@@ -1,29 +1,17 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <head>
-	<c:import url='/WEB-INF/JSP/head.jsp'>
-		<c:param name='title' value='Het Cultuurhuis'/>
-	</c:import>
+	<vdab:head title='Het Cultuurhuis'/>
 </head>
 <body>
 	<h1>Het Cultuurhuis:voorstellingen
 		<img src= <c:url value='/images/voorstellingen.png'/> alt='voorstellingen'>
 	</h1>
-	<c:if test='${not empty sessionScope.mandje}'>
-		<a href="<c:url value='/reservatiemandje.htm'/>">Reservatiemandje</a>
-		<a href="<c:url value='/bevestigen.htm'/>">Bevestiging reservatie</a>
-	</c:if>
-	<h2>Genres</h2>
-	<ul id='genrelijst'>
-		<c:forEach var='genre' items='${genres}'>
-			<c:url value='/index.htm' var='genreVoorstellingURL'>
-				<c:param name='id' value="${genre.id}"/>
-			</c:url>
-			<li><a href='${genreVoorstellingURL}'>${genre.naam}</a></li>
-		</c:forEach>
-	</ul>
+	<vdab:menu hideVoorstellingen='true'/>
+	<vdab:menuGenres/>
 	<c:if test='${not empty genreVoorstellingen}'>
 		<table>
 		<caption>${genreVoorstellingen[1].genre.naam} voorstellingen</caption>

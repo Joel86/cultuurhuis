@@ -1,16 +1,16 @@
-<%@page contentType='text/html' pageEncoding='UTF-8' session='false'%>
+<%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <head>
-	<c:import url='/WEB-INF/JSP/head.jsp'>
-		<c:param name='title' value='Nieuwe klant'/>
-	</c:import>
+	<vdab:head title='Nieuwe klant'/>
 </head>
 <body>
 	<h1>Het Cultuurhuis:nieuwe klant
 		<img src="<c:url value='/images/nieuweklant.png'/>" alt='Nieuwe klant'>
 	</h1>
+	<vdab:menu/>
 	<form method='post'>
 		<label>Voornaam:
 			<input name='voornaam' autofocus required>

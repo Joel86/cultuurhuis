@@ -1,20 +1,16 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
 <head>
-	<c:import url='/WEB-INF/JSP/head.jsp'>
-		<c:param name='title' value='Reservatiemandje'/>
-	</c:import>
+	<vdab:head title='Reservatiemandje'/>
 </head>
 <body>
 	<h1>Het Cultuurhuis:reservatiemandje
 		<img src="<c:url value='/images/mandje.png'/>" alt='mandje'>
 	</h1>
-	<a href='<c:url value="/index.htm"/>'>Voorstellingen</a>
-	<c:if test='${not empty sessionScope.mandje}'>
-		<a href="<c:url value='/bevestigen.htm'/>">Bevestiging reservatie</a>
-	</c:if>
+	<vdab:menu hideReservatiemandje='true'/>
 	<c:set var='totaal' value='0'/>
 	<form method='post'>
 		<table>
