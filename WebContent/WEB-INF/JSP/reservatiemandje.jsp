@@ -1,5 +1,6 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
@@ -25,7 +26,8 @@
 			<c:forEach var='voorstellingInMandje' items='${voorstellingenInMandje}'>
 				<c:set var='subtotaal' value='${voorstellingInMandje.prijs * mandje[voorstellingInMandje.id]}'/>
 				<tr>
-					<td>${voorstellingInMandje.datumTijd}</td>
+					<td><fmt:formatDate value='${voorstellingInMandje.datumTijd}' 
+						type='both' dateStyle='short' timeStyle='short'/></td>
 					<td>${voorstellingInMandje.titel}</td>
 					<td>${voorstellingInMandje.uitvoerders}</td>
 					<td>&euro;${voorstellingInMandje.prijs}</td>

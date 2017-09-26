@@ -1,5 +1,6 @@
 <%@page contentType='text/html' pageEncoding='UTF-8'%>
 <%@taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
 <%@taglib prefix='vdab' uri='http://vdab.be/tags'%>
 <!doctype html>
 <html lang='nl'>
@@ -23,7 +24,8 @@
 			</tr>
 			<c:forEach var='gelukteReservatie' items='${gelukteReservaties}'>
 				<tr>
-					<td>${gelukteReservatie.voorstelling.datumTijd}</td>
+					<td><fmt:formatDate value='${gelukteReservatie.voorstelling.datumTijd}' 
+						type='both' dateStyle='short' timeStyle='short'/></td>
 					<td>${gelukteReservatie.voorstelling.titel}</td>
 					<td>${gelukteReservatie.voorstelling.uitvoerders}</td>
 					<td>${gelukteReservatie.voorstelling.prijs}</td>
@@ -45,7 +47,8 @@
 			</tr>
 			<c:forEach var='mislukteReservatie' items='${mislukteReservaties}'>
 				<tr>
-					<td>${mislukteReservatie.voorstelling.datumTijd}</td>
+					<td><fmt:formatDate value='${misReservatie.voorstelling.datumTijd}' 
+						type='both' dateStyle='short' timeStyle='short'/></td>
 					<td>${mislukteReservatie.voorstelling.titel}</td>
 					<td>${mislukteReservatie.voorstelling.uitvoerders}</td>
 					<td>${mislukteReservatie.voorstelling.prijs}</td>

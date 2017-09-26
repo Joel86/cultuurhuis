@@ -1,11 +1,15 @@
 package be.vdab.repositories;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +84,7 @@ public class VoorstellingRepository extends AbstractRepository {
 	}
 	private Voorstelling resultSetRijNaarVoorstelling(ResultSet resultSet) throws SQLException {
 		return new Voorstelling(resultSet.getLong("voorstellingid"), resultSet.getString("titel"), 
-				resultSet.getString("uitvoerders"), resultSet.getTimestamp("datum").toLocalDateTime(),
+				resultSet.getString("uitvoerders"), resultSet.getTimestamp("datum"),
 				new Genre(resultSet.getLong("genreid"), resultSet.getString("genrenaam")),
 				resultSet.getBigDecimal("prijs"), resultSet.getInt("vrijePlaatsen"));
 	}

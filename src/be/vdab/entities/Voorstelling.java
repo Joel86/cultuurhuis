@@ -1,19 +1,20 @@
 package be.vdab.entities;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Voorstelling {
 	private long id;
 	private String titel;
 	private String uitvoerders;
-	private LocalDateTime datumTijd;
+	private Timestamp datumTijd;
 	private Genre genre;
 	private BigDecimal prijs;
 	private int vrijePlaatsen;
 	public Voorstelling() {
 	}
-	public Voorstelling(long id, String titel, String uitvoerders, LocalDateTime datumTijd, 
+	public Voorstelling(long id, String titel, String uitvoerders, Timestamp datumTijd, 
 			Genre genre, BigDecimal prijs, int vrijePlaatsen) {
 		this.id = id;
 		this.titel = titel;
@@ -41,10 +42,10 @@ public class Voorstelling {
 	public void setUitvoerders(String uitvoerders) {
 		this.uitvoerders = uitvoerders;
 	}
-	public LocalDateTime getDatumTijd() {
+	public Timestamp getDatumTijd() {
 		return datumTijd;
 	}
-	public void setDatum(LocalDateTime datumTijd) {
+	public void setDatum(Timestamp datumTijd) {
 		this.datumTijd = datumTijd;
 	}
 	public Genre getGenre() {
