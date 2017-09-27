@@ -10,7 +10,7 @@
 	<h1>Het Cultuurhuis:bevestiging reservaties
 		<img src="<c:url value='/images/bevestig.png'/>" alt='Bevestig'>
 	</h1>
-	<vdab:menu hideBevestigen='true'/>
+	<vdab:menu bevestigen='hidden'/>
 	<form method='post'>
 		<h2>Stap 1:Wie ben je?</h2>
 		<label>Gebruikersnaam:

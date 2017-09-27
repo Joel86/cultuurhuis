@@ -11,11 +11,11 @@
 	<h1>Het Cultuurhuis:voorstellingen
 		<img src= <c:url value='/images/voorstellingen.png'/> alt='voorstellingen'>
 	</h1>
-	<vdab:menu hideVoorstellingen='true'/>
+	<vdab:menu voorstellingen='hidden'/>
 	<vdab:menuGenres/>
 	<c:if test='${not empty genreVoorstellingen}'>
 		<table>
-		<caption>${genreVoorstellingen[1].genre.naam} voorstellingen</caption>
+		<caption>${genreVoorstellingen[0].genre.naam} voorstellingen</caption>
 			<tr>
 				<th>Datum</th>
 				<th>Titel</th>

@@ -11,7 +11,7 @@
 	<h1>Het Cultuurhuis:reservatiemandje
 		<img src="<c:url value='/images/mandje.png'/>" alt='mandje'>
 	</h1>
-	<vdab:menu hideReservatiemandje='true'/>
+	<vdab:menu reservatiemandje='hidden'/>
 	<c:set var='totaal' value='0'/>
 	<form method='post'>
 		<table>

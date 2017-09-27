@@ -1,7 +1,17 @@
 @charset "UTF-8";
-ul#genrelijst li {
-    display:inline;
-    width: 100%;
+body {
+	color: #5A0000;
+	font-family: sans-serif;
+}
+dd,dt {
+	margin-left: 0;
+}
+dt {
+	margin-top: 0.5em;
+	font-weight: bold;
+}
+dd {
+	margin-top: 1em;
 }
 table {
 	border: 1px solid gray;
@@ -9,4 +19,13 @@ table {
 }
 tr:nth-child(odd) {
 	background-color: #e6e6e6;
+}
+nav li {
+	display: inline;
+}
+nav ul {
+	padding: 0.4em 0;
+}
+#menu .hidden {
+	display: none;
 }

@@ -12,18 +12,16 @@
 		<img src= <c:url value='/images/reserveren.png'/> alt='reserveren'>
 	</h1>
 	<vdab:menu/>
-	<p>Voorstelling:<br>
-	${voorstelling.titel}</p>
-	<p>Uitvoerders:<br>
-	${voorstelling.uitvoerders}</p>
-	<p>Datum:<br>
-	<fmt:formatDate value='${voorstelling.datumTijd}' 
-		type='both' dateStyle='short' timeStyle='short'/></p>
-	<p>Prijs:<br>
-	&euro;${voorstelling.prijs}</p>
-	<p>Vrije plaatsen:<br>
-	${voorstelling.vrijePlaatsen}</p>
-	Plaatsen:
+	<dl>
+		<dd>Voorstelling:</dd><dt>${voorstelling.titel}</dt>
+		<dd>Uitvoerders:</dd><dt>${voorstelling.uitvoerders}</dt>
+		<dd>Datum:</dd>
+		<dt><fmt:formatDate value='${voorstelling.datumTijd}' 
+		type='both' dateStyle='short' timeStyle='short'/></dt>
+		<dd>Prijs:</dd><dt>&euro;${voorstelling.prijs}</dt>
+		<dd>Vrije plaatsen:</dd><dt>${voorstelling.vrijePlaatsen}</dt>
+		<dd>Plaatsen:</dd>
+	</dl>
 	<form method='post'>
 		<input name='aantal' type='number' 
 			value='${aantalPlaatsenGereserveerd}' required/>
