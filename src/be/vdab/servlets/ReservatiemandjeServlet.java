@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import be.vdab.repositories.GenreRepository;
 import be.vdab.repositories.VoorstellingRepository;
 
 /**
