@@ -53,7 +53,6 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("zoekMeOp") != null) {
 			Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
@@ -75,6 +74,7 @@ public class ReservatieBevestigenServlet extends HttpServlet {
 			List<Reservatie> mislukteReservaties = new LinkedList<>();
 			Reservatie reservatie;
 			Voorstelling voorstelling;
+			@SuppressWarnings("unchecked")
 			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
 			for(Map.Entry<Long, Integer> mandjeEntry : mandje.entrySet()) {
 				voorstelling = voorstellingRepository.read(mandjeEntry.getKey()).get();

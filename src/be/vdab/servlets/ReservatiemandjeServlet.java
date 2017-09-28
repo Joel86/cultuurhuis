@@ -29,11 +29,11 @@ public class ReservatiemandjeServlet extends HttpServlet {
 	void setDataSource(DataSource dataSource) {
 		voorstellingRepository.setDataSource(dataSource);
 	}
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if(session != null) {
+			@SuppressWarnings("unchecked")
 			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
 			if(mandje != null) {
 				request.setAttribute("voorstellingenInMandje",
@@ -47,17 +47,19 @@ public class ReservatiemandjeServlet extends HttpServlet {
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if(session != null) {
+			@SuppressWarnings("unchecked")
 			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
-			String[] idsAlsArray = request.getParameterValues("id");
-			for (String idString : idsAlsArray) {
-				mandje.remove(Long.parseLong(idString));
+			if(request.getParameterValues("id") != null) {
+				String[] idsAlsArray = request.getParameterValues("id");
+				for (String idString : idsAlsArray) {
+					mandje.remove(Long.parseLong(idString));
+				}
 			}
+			response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
 		}
-		response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
 	}
 }

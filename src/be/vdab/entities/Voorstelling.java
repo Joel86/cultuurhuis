@@ -1,10 +1,11 @@
 package be.vdab.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
-public class Voorstelling {
+public class Voorstelling implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String titel;
 	private String uitvoerders;

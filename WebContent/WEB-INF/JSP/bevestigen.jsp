@@ -31,8 +31,8 @@
 		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
 		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}
 	</c:if>
+	<h2>Stap 2:Bevestigen</h2>
 	<form method='post'>
-		<h2>Stap 2:Bevestigen</h2>
 		<input name='bevestigen' type='submit' value='Bevestigen'
 			<c:if test='${empty klant}'>disabled</c:if>>
 	</form>

@@ -1,6 +1,9 @@
 package be.vdab.entities;
 
-public class Adres {
+import java.io.Serializable;
+
+public class Adres implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String straat;
 	private int huisNr;
 	private int postcode;

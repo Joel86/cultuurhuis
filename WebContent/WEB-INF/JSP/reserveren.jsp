@@ -31,6 +31,5 @@
 		</label>
 		<input type='submit' value='Reserveren'/>
 	</form>
-	
 </body>
 </html>

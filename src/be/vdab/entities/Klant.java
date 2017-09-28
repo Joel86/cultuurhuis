@@ -1,6 +1,9 @@
 package be.vdab.entities;
 
-public class Klant {
+import java.io.Serializable;
+
+public class Klant implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String voornaam;
 	private String familienaam;
