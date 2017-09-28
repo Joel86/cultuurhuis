@@ -13,36 +13,38 @@
 	<vdab:menu/>
 	<form method='post'>
 		<label>Voornaam:
-			<input name='voornaam' autofocus required>
+			<input name='voornaam' autofocus>
 		</label>
 		<label>Familienaam:
-			<input name='familienaam' required>
+			<input name='familienaam'>
 		</label>
 		<label>Straat:
-			<input name='straat' required>
+			<input name='straat'>
 		</label>
 		<label>Huisnr.:
-			<input name='huisnr' required>
+			<input type='number' name='huisnr'>
 		</label>
 		<label>Postcode:
-			<input name='postcode' required>
+			<input type='number' name='postcode'>
 		</label>
 		<label>Gemeente:
-			<input name='gemeente' required>
+			<input name='gemeente'>
 		</label>
 		<label>Gebruikersnaam:
-			<input name='gebruikersnaam' required>
+			<input name='gebruikersnaam'>
 		</label>
 		<label>Paswoord:
-			<input name='paswoord' type='password' required>
+			<input name='paswoord' type='password'>
 		</label>
 		<label>Herhaal paswoord:
-			<input name='herhaalpaswoord' type='password' required>
+			<input name='herhaalpaswoord' type='password'>
 		</label>
 		<input type='submit' value='OK'>
 	</form>
-	<c:forEach var='fout' items='${fouten}'>
-			${fout.value}
-	</c:forEach>
+	<ul>
+		<c:forEach var='fout' items='${fouten}'>
+			<li>${fout.value}</li>
+		</c:forEach>
+	</ul>
 </body>
 </html>

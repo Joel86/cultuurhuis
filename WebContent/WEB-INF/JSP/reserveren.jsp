@@ -20,14 +20,15 @@
 		type='both' dateStyle='short' timeStyle='short'/></dt>
 		<dd>Prijs:</dd><dt>&euro;${voorstelling.prijs}</dt>
 		<dd>Vrije plaatsen:</dd><dt>${voorstelling.vrijePlaatsen}</dt>
-		<dd>Plaatsen:</dd>
 	</dl>
 	<form method='post'>
-		<input name='aantal' type='number' 
-			value='${aantalPlaatsenGereserveerd}' required/>
-		<c:if test='${not empty fouten}'>
-			${fouten.aantal}${voorstelling.vrijePlaatsen}
-		</c:if>
+		<label>Plaatsen:
+			<input name='aantal' type='number' 
+				value='${aantalPlaatsenGereserveerd}' required/>
+			<c:if test='${not empty fouten}'>
+				<span>${fouten.aantal}${voorstelling.vrijePlaatsen}</span>
+			</c:if>
+		</label>
 		<input type='submit' value='Reserveren'/>
 	</form>
 	

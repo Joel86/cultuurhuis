@@ -45,7 +45,7 @@
 		</table>
 	</c:if>
 	<c:if test='${empty genreVoorstellingen and not empty param.id}'>
-		Geen voorstellingen gevonden.
+		<div class='fout'>Geen voorstellingen gevonden</div>
 	</c:if>
 </body>
 </html>
