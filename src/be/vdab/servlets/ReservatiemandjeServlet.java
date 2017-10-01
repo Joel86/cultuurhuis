@@ -1,8 +1,12 @@
 package be.vdab.servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -13,11 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import be.vdab.entities.Reservatie;
 import be.vdab.repositories.VoorstellingRepository;
 
-/**
- * Servlet implementation class reservatiemandjeServlet
- */
 @WebServlet("/reservatiemandje.htm")
 public class ReservatiemandjeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,30 +37,36 @@ public class ReservatiemandjeServlet extends HttpServlet {
 			@SuppressWarnings("unchecked")
 			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
 			if(mandje != null) {
-				request.setAttribute("voorstellingenInMandje",
-						(mandje.keySet()).stream()
-						.map(id -> voorstellingRepository.read(id))
-						.filter(optionalVoorstelling -> optionalVoorstelling.isPresent())
-						.map(optionalVoorstelling -> optionalVoorstelling.get())
-						.collect(Collectors.toSet()));
-				request.setAttribute("mandje", mandje);
+				List<Reservatie> reservatiesInMandje = new ArrayList<>();
+				List<BigDecimal> subtotaal = new ArrayList<>(); //ArrayList met subtotaal per voorstelling in mandje
+				mandje.keySet().stream()
+						.map(voorstellingRepository::read)
+						.filter(Optional::isPresent)
+						.map(Optional::get)
+						.map(voorstelling -> new Reservatie(voorstelling, mandje.get(voorstelling.getId())))
+						.forEach(reservatie -> {
+							reservatiesInMandje.add(reservatie);
+							subtotaal.add(reservatie.getVoorstelling().getPrijs().multiply(
+									BigDecimal.valueOf(reservatie.getAantalPlaatsen())));
+						});
+				request.setAttribute("totalePrijs",
+						subtotaal.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
+				request.setAttribute("reservatiesInMandje", reservatiesInMandje);
 			}
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if(session != null) {
+		if(request.getParameterValues("id") != null) {
+			HttpSession session = request.getSession();
 			@SuppressWarnings("unchecked")
 			Map<Long, Integer> mandje = (Map<Long, Integer>)session.getAttribute(MANDJE);
-			if(request.getParameterValues("id") != null) {
-				String[] idsAlsArray = request.getParameterValues("id");
-				for (String idString : idsAlsArray) {
-					mandje.remove(Long.parseLong(idString));
-				}
-			}
-			response.sendRedirect(request.getContextPath() + "/reservatiemandje.htm");
+			Arrays.stream(request.getParameterValues("id"))
+				.forEach(id -> mandje.remove(Long.parseLong(id)));
+			session.setAttribute(MANDJE, mandje);
 		}
+		response.sendRedirect(request.getRequestURI());
 	}
 }
+

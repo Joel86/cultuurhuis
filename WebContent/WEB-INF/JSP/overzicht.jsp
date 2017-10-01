@@ -12,7 +12,7 @@
 		<img src="<c:url value='/images/bevestig.png'/>" alt='Bevestig'>
 	</h1>
 	<vdab:menu/>
-	<c:if test='${not empty gelukteReservaties}'>
+	<c:if test='${not empty reservaties[true]}'>
 		<h2>Gelukte reserveringen</h2>
 		<table>
 			<tr>
@@ -22,19 +22,19 @@
 				<th>Prijs</th>
 				<th>Plaatsen</th>
 			</tr>
-			<c:forEach var='gelukteReservatie' items='${gelukteReservaties}'>
+			<c:forEach var='gelukteReservatie' items='${reservaties[true]}'>
 				<tr>
 					<td><fmt:formatDate value='${gelukteReservatie.voorstelling.datumTijd}' 
 						type='both' dateStyle='short' timeStyle='short'/></td>
-					<td>${gelukteReservatie.voorstelling.titel}</td>
-					<td>${gelukteReservatie.voorstelling.uitvoerders}</td>
+					<td><c:out value='${gelukteReservatie.voorstelling.titel}'/></td>
+					<td><c:out value='${gelukteReservatie.voorstelling.uitvoerders}'/></td>
 					<td>${gelukteReservatie.voorstelling.prijs}</td>
 					<td>${gelukteReservatie.aantalPlaatsen}</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
-	<c:if test='${not empty mislukteReservaties}'>
+	<c:if test='${not empty reservaties[false]}'>
 		<h2>Mislukte reserveringen</h2>
 		<table>
 			<tr>
@@ -45,12 +45,12 @@
 				<th>Plaatsen</th>
 				<th>Vrije plaatsen</th>
 			</tr>
-			<c:forEach var='mislukteReservatie' items='${mislukteReservaties}'>
+			<c:forEach var='mislukteReservatie' items='${reservaties[false]}'>
 				<tr>
-					<td><fmt:formatDate value='${misReservatie.voorstelling.datumTijd}' 
+					<td><fmt:formatDate value='${mislukteReservatie.voorstelling.datumTijd}' 
 						type='both' dateStyle='short' timeStyle='short'/></td>
-					<td>${mislukteReservatie.voorstelling.titel}</td>
-					<td>${mislukteReservatie.voorstelling.uitvoerders}</td>
+					<td><c:out value='${mislukteReservatie.voorstelling.titel}'/></td>
+					<td><c:out value='${mislukteReservatie.voorstelling.uitvoerders}'/></td>
 					<td>${mislukteReservatie.voorstelling.prijs}</td>
 					<td>${mislukteReservatie.aantalPlaatsen}</td>
 					<td>${mislukteReservatie.voorstelling.vrijePlaatsen}</td>

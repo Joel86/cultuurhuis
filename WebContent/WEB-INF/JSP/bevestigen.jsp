@@ -28,8 +28,8 @@
 			<c:if test='${not empty klant}'>disabled</c:if>>
 	</form>
 	<c:if test='${not empty klant}'>
-		${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
-		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}
+		<c:out value='${klant.voornaam} ${klant.familienaam} ${klant.adres.straat}
+		${klant.adres.huisNr} ${klant.adres.postcode} ${klant.adres.gemeente}'/>
 	</c:if>
 	<h2>Stap 2:Bevestigen</h2>
 	<form method='post'>

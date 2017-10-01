@@ -11,21 +11,34 @@ import be.vdab.entities.Reservatie;
 public class ReservatieRepository extends AbstractRepository {
 	private static final String CREATE = "insert into reservaties("
 			+ "klantid, voorstellingsid, plaatsen) values(?,?,?)";
-	public void create(Reservatie reservatie) {
+	private static final String UPDATE_VRIJE_PLAATSEN = "update voorstellingen"
+			+ " set vrijeplaatsen = vrijeplaatsen - ?"
+			+ " where id = ? and vrijeplaatsen >= ?";
+	public boolean create(Reservatie reservatie) {
 		try(Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection.prepareStatement(
+				PreparedStatement statementUpdatePlaatsen = connection.prepareStatement(
+						UPDATE_VRIJE_PLAATSEN);
+				PreparedStatement statementCreateReservatie = connection.prepareStatement(
 						CREATE, Statement.RETURN_GENERATED_KEYS)) {
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			connection.setAutoCommit(false);
-			statement.setLong(1, reservatie.getKlant().getId());
-			statement.setLong(2, reservatie.getVoorstelling().getId());
-			statement.setInt(3, reservatie.getAantalPlaatsen());
-			statement.executeUpdate();
-			try(ResultSet resultSet = statement.getGeneratedKeys()) {
-				resultSet.next();
-				reservatie.setId(resultSet.getLong(1));
+			statementUpdatePlaatsen.setInt(1, reservatie.getAantalPlaatsen());
+			statementUpdatePlaatsen.setLong(2, reservatie.getVoorstelling().getId());
+			statementUpdatePlaatsen.setInt(3, reservatie.getAantalPlaatsen());
+			if (statementUpdatePlaatsen.executeUpdate() != 0) {
+				statementCreateReservatie.setLong(1, reservatie.getKlant().getId());
+				statementCreateReservatie.setLong(2, reservatie.getVoorstelling().getId());
+				statementCreateReservatie.setInt(3, reservatie.getAantalPlaatsen());
+				statementCreateReservatie.executeUpdate();
+				try(ResultSet resultSet = statementCreateReservatie.getGeneratedKeys()) {
+					resultSet.next();
+					reservatie.setId(resultSet.getLong(1));
+				}
+				connection.commit();
+				return true;
+			}else {
+				return false;
 			}
-			connection.commit();
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}

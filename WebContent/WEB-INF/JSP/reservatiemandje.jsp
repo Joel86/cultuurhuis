@@ -12,7 +12,6 @@
 		<img src="<c:url value='/images/mandje.png'/>" alt='mandje'>
 	</h1>
 	<vdab:menu reservatiemandje='hidden'/>
-	<c:set var='totaal' value='0'/>
 	<form method='post'>
 		<table>
 			<tr>
@@ -23,23 +22,21 @@
 				<th>Plaatsen</th>
 				<th><input type='submit' value='Verwijderen'/></th>
 			</tr>
-			<c:forEach var='voorstellingInMandje' items='${voorstellingenInMandje}'>
-				<c:set var='subtotaal' value='${voorstellingInMandje.prijs * mandje[voorstellingInMandje.id]}'/>
+			<c:forEach var='reservatieInMandje' items='${reservatiesInMandje}'>
 				<tr>
-					<td><fmt:formatDate value='${voorstellingInMandje.datumTijd}' 
+					<td><fmt:formatDate value='${reservatieInMandje.voorstelling.datumTijd}' 
 						type='both' dateStyle='short' timeStyle='short'/></td>
-					<td>${voorstellingInMandje.titel}</td>
-					<td>${voorstellingInMandje.uitvoerders}</td>
-					<td>&euro;${voorstellingInMandje.prijs}</td>
-					<td>${mandje[voorstellingInMandje.id]}</td>
+					<td><c:out value='${reservatieInMandje.voorstelling.titel}'/></td>
+					<td><c:out value='${reservatieInMandje.voorstelling.uitvoerders}'/></td>
+					<td>&euro;${reservatieInMandje.voorstelling.prijs}</td>
+					<td>${reservatieInMandje.aantalPlaatsen}</td>
 					<td>
-						<input type='checkbox' name='id' value='${voorstellingInMandje.id}'>	
+						<input type='checkbox' name='id' value='${reservatieInMandje.voorstelling.id}'>	
 					</td>
 				</tr>
-				<c:set var='totaal' value='${totaal + subtotaal}'/>
 			</c:forEach>
 		</table>
 	</form>
-	Te betalen: &euro;${totaal}
+	Te betalen: &euro;${totalePrijs}
 </body>
 </html>

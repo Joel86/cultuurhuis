@@ -19,21 +19,21 @@ import be.vdab.entities.Klant;
 import be.vdab.repositories.KlantRepository;
 import be.vdab.util.StringUtils;
 
-/**
- * Servlet implementation class NieuweKlantServlet
- */
 @WebServlet("/nieuweklant.htm")
 public class NieuweKlantServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "WEB-INF/JSP/nieuweklant.jsp";
+	private static final String REDIRECT_URL = "/bevestigen.htm";
 	private final transient KlantRepository klantRepository = new KlantRepository();
 	@Resource(name = KlantRepository.JNDI_NAME)
 	void setDataSource(DataSource dataSource) {
 		klantRepository.setDataSource(dataSource);
 	}
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Map<String,String> fouten = new HashMap<>();
 		Optional<Klant> optionalKlant = klantRepository.read(request.getParameter("gebruikersnaam"));
@@ -88,7 +88,7 @@ public class NieuweKlantServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("gebruikersnaamSession", request.getParameter("gebruikersnaam"));
 			session.setAttribute("paswoordSession", request.getParameter("paswoord"));
-			response.sendRedirect(request.getContextPath() + "/bevestigen.htm");
+			response.sendRedirect(request.getContextPath() + REDIRECT_URL);
 		} else {
 			request.setAttribute("fouten", fouten);
 			request.getRequestDispatcher(VIEW).forward(request, response);

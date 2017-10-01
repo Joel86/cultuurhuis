@@ -1,15 +1,11 @@
 package be.vdab.repositories;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +24,7 @@ public class VoorstellingRepository extends AbstractRepository {
 			+ " prijs, vrijeplaatsen from voorstellingen inner join genres on"
 			+ " genreid = genres.id where genreid = ?"
 			+ " and datum >= ? order by datum asc";
-	private static final String UPDATE_PLAATSEN = "update voorstellingen set vrijeplaatsen = vrijeplaatsen - ?"
-			+ " where id = ? and vrijeplaatsen >= ?";
-	public List<Voorstelling> findFuturePerformancesByGenre(long id, LocalDateTime datumTijd) {
+	public List<Voorstelling> findFuturePerformancesByGenreId(long id, LocalDateTime datumTijd) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCES_FROM_DATE_BY_GENRE)) {
 			List<Voorstelling> voorstellingen = new ArrayList<>();
@@ -52,32 +46,19 @@ public class VoorstellingRepository extends AbstractRepository {
 	public Optional<Voorstelling> read(long id) {
 		try(Connection connection = dataSource.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
+			Optional<Voorstelling> voorstelling;
 			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			connection.setAutoCommit(false);
 			statement.setLong(1, id);
-			Voorstelling voorstelling = new Voorstelling();
 			try(ResultSet resultSet = statement.executeQuery()) {
 				if(resultSet.next()) {
-					voorstelling = resultSetRijNaarVoorstelling(resultSet);
+					voorstelling = Optional.of(resultSetRijNaarVoorstelling(resultSet));
+				}else {
+					voorstelling = Optional.empty();
 				}
 			}
 			connection.commit();
-			return Optional.ofNullable(voorstelling);
-		} catch(SQLException ex) {
-			throw new RepositoryException(ex);
-		}
-	}
-	public boolean updateVrijePlaatsen(long id, int aantal) {
-		try(Connection connection = dataSource.getConnection();
-				PreparedStatement statement = connection.prepareStatement(UPDATE_PLAATSEN)) {
-			connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-			connection.setAutoCommit(false);
-			statement.setInt(1, aantal);
-			statement.setLong(2, id);
-			statement.setInt(3, aantal);
-			int aantalGewijzigd = statement.executeUpdate();
-			connection.commit();
-			return aantalGewijzigd > 0;
+			return voorstelling;
 		} catch(SQLException ex) {
 			throw new RepositoryException(ex);
 		}

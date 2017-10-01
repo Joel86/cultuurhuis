@@ -10,17 +10,19 @@ public class Reservatie implements Serializable {
 	private int aantalPlaatsen;
 	public Reservatie() {
 	}
-	public Reservatie(long id, Voorstelling voorstelling, Klant klant, int aantalPlaatsen) {
-		this.id = id;
-		this.voorstelling = voorstelling;
-		this.klant = klant;
-		this.aantalPlaatsen = aantalPlaatsen;
-	}
 	public Reservatie(Voorstelling voorstelling, Klant klant, int aantalPlaatsen) {
 		this.voorstelling = voorstelling;
 		this.klant = klant;
 		this.aantalPlaatsen = aantalPlaatsen;
-	}	
+	}
+	public Reservatie(long id, Voorstelling voorstelling, Klant klant, int aantalPlaatsen) {
+		this(voorstelling, klant, aantalPlaatsen);
+		this.id = id;
+	}
+	public Reservatie(Voorstelling voorstelling, int aantalPlaatsen) {
+		this.voorstelling = voorstelling;
+		this.aantalPlaatsen = aantalPlaatsen;
+	}
 	public long getId() {
 		return id;
 	}

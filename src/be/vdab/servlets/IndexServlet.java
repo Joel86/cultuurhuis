@@ -17,9 +17,6 @@ import be.vdab.repositories.GenreRepository;
 import be.vdab.repositories.VoorstellingRepository;
 import be.vdab.util.StringUtils;
 
-/**
- * Servlet implementation class IndexServlet
- */
 @WebServlet("/index.htm")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,16 +33,16 @@ public class IndexServlet extends HttpServlet {
 		List<Genre> genres = genreRepository.findAll();
 		request.setAttribute("genres", genres);
 		LocalDateTime vandaag = LocalDateTime.now();
-		if(request.getParameter("id") != null) {
-			String idString = request.getParameter("id");
-			if(StringUtils.isLong(idString)) {
-				request.setAttribute("genreVoorstellingen",
-					voorstellingRepository.findFuturePerformancesByGenre(Long.parseLong(idString), vandaag));
-			}
+		String idString = request.getParameter("id");
+		if(StringUtils.isLong(idString)) {
+			Long id = Long.parseLong(idString);
+			genreRepository.findById(id).ifPresent(
+					genre -> request.setAttribute("genre", genre));
+			request.setAttribute("genreVoorstellingen",
+					voorstellingRepository.findFuturePerformancesByGenreId(id, vandaag));
+		}else {
+			request.setAttribute("fout", "Id niet correct");
 		}
 		request.getRequestDispatcher(VIEW).forward(request,response);
-	}
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 }
